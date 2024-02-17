@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+  panel:
+    build:
+      context: ./panel
+      dockerfile: Dockerfile
+    restart: on-failure
+    networks:
+      - external-network
+    ports:
+      - 3000:3000/tcp
+    tty: true
+
   migrate:
     build:
       context: ./application
@@ -8,6 +19,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    restart: no
     volumes:
       - ./application/.env.test:/app/.env:ro
     networks:
@@ -26,6 +38,7 @@ services:
         condition: service_healthy
       migrate:
         condition: service_completed_successfully
+    restart: on-failure
     volumes:
       - ./application/.env.test:/app/.env:ro
     networks:
@@ -49,6 +62,7 @@ services:
         condition: service_started
       migrate:
         condition: service_completed_successfully
+    restart: on-failure
     volumes:
       - ./application/.env.test:/app/.env:ro
     networks:
@@ -61,6 +75,7 @@ services:
     build:
       context: ./extractor
       dockerfile: Dockerfile
+    restart: on-failure
     networks:
       - internal-network
       - external-network
@@ -68,10 +83,11 @@ services:
 
   mysql:
     image: mysql:8.3-oracle
-    networks:
-      - internal-network
+    restart: on-failure
     volumes:
       - mysql-data:/var/lib/mysql
+    networks:
+      - internal-network
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=${DB_DATABASE}
@@ -85,10 +101,11 @@ services:
 
   redis:
     image: redis/redis-stack:latest
-    networks:
-      - internal-network
+    restart: on-failure
     volumes:
       - redis-data:/data
+    networks:
+      - internal-network
     healthcheck:
       test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
       start_period: 5s
@@ -97,13 +114,14 @@ services:
 
   minio:
     image: minio/minio:latest
+    restart: on-failure
+    volumes:
+      - minio-data:/data/minio
+    networks:
+      - internal-network
     environment:
       - MINIO_ROOT_USER=${AWS_ACCESS_KEY_ID}
       - MINIO_ROOT_PASSWORD=${AWS_SECRET_ACCESS_KEY}
-    volumes:
-        - minio-data:/data/minio
-    networks:
-        - internal-network
     entrypoint: ["sh"]
     command: ["-c", "mkdir -p /data/minio/${AWS_BUCKET} && minio server /data/minio"]
     healthcheck:
