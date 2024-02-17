@@ -1,0 +1,124 @@
+version: '3.8'
+
+services:
+  migrate:
+    build:
+      context: ./application
+      dockerfile: Dockerfile
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./application/.env.test:/app/.env:ro
+    networks:
+      - internal-network
+    tty: true
+    command: ["migrate", "--force"]
+
+  application:
+    build:
+      context: ./application
+      dockerfile: Dockerfile
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    volumes:
+      - ./application/.env.test:/app/.env:ro
+    networks:
+      - internal-network
+      - external-network
+    ports:
+      - 8000:8000/tcp
+    tty: true
+    command: ["octane:start", "--host=0.0.0.0", "--port=8000", "--workers=1", "--task-workers=1"]
+
+  worker:
+    build:
+      context: ./application
+      dockerfile: Dockerfile
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      extractor:
+        condition: service_started
+      migrate:
+        condition: service_completed_successfully
+    volumes:
+      - ./application/.env.test:/app/.env:ro
+    networks:
+      - internal-network
+      - external-network
+    tty: true
+    command: ["queue:work"]
+
+  extractor:
+    build:
+      context: ./extractor
+      dockerfile: Dockerfile
+    networks:
+      - internal-network
+      - external-network
+    tty: true
+
+  mysql:
+    image: mysql:8.3-oracle
+    networks:
+      - internal-network
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-hlocalhost", "-uroot", "-p$$MYSQL_ROOT_PASSWORD"]
+      start_period: 10s
+      interval: 5s
+      retries: 5
+
+  redis:
+    image: redis/redis-stack:latest
+    networks:
+      - internal-network
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      start_period: 5s
+      interval: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:latest
+    environment:
+      - MINIO_ROOT_USER=${AWS_ACCESS_KEY_ID}
+      - MINIO_ROOT_PASSWORD=${AWS_SECRET_ACCESS_KEY}
+    volumes:
+        - minio-data:/data/minio
+    networks:
+        - internal-network
+    entrypoint: ["sh"]
+    command: ["-c", "mkdir -p /data/minio/${AWS_BUCKET} && minio server /data/minio"]
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+        retries: 3
+        timeout: 5s
+
+networks:
+  external-network:
+    internal: false
+
+  internal-network:
+    internal: true
+
+volumes:
+  mysql-data: {}
+  redis-data: {}
+  minio-data: {}
