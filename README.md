@@ -72,24 +72,24 @@ Please visit `http://localhost:3000` to access the panel.
    Extracting structured data from HTML documents involves parsing and manipulating the Document Object Model (DOM). The content title is extracted from HTML meta tags by using PHP's [DOM extension](https://www.php.net/manual/en/book.dom.php), and the body is obtained from relevant JSON-LD metadata; if unavailable, Python's [Goose3 package](https://pypi.org/project/goose3/)  is utilized to extract text from raw HTML.
 
 2) **Extracting Metadata**<br>
-   _Metadata provides additional context about the web resource, including information like authorship, publication date, keywords, etc and is crucial for categorizing and indexing web content accurately._<br>
+   _Metadata provides additional context about the web resource, including information like authorship, publication date, keywords, etc to categorize and index web content accurately._<br>
    <br>
    Extracting metadata involves understanding various formats like HTML meta tags, JSON-LD, and other structured data formats. PHP's [DOM extension](https://www.php.net/manual/en/book.dom.php) is used to extract all and any metadata available.
 
 3) **Extracting Images**<br>
-   _Images embedded within web content contribute to its visual appeal and often convey essential information and extracting them enables applications to analyze visual content or display it to users._<br>
+   _Images embedded within web content contribute to its visual appeal and often convey essential information and extracting them enables applications to analyze visual content._<br>
    <br>
-   Image extraction entails retrieving the image source within the article body using PHP's [DOM extension](https://www.php.net/manual/en/book.dom.php), after which the URIs are traversed by a crawler to retrieve, validate, and cache the image data.
+   Image extraction involves retrieving the image source within the article body using PHP's [DOM extension](https://www.php.net/manual/en/book.dom.php), after which the URIs are traversed by a crawler to retrieve, validate, and cache the image data.
 
 4) **Avoiding Duplicate Pages**<br>
-   _Preventing the ingestion of duplicate web pages helps in conserving resources and avoiding redundant processing and ensures that only unique content is indexed or stored._<br>
+   _Preventing the ingestion of duplicate web pages helps conserve resources and avoid redundant processing and ensures that only unique content is indexed or stored._<br>
    <br>
    Duplicate detection involves normalizing the requested URL by eliminating tracking parameters from the URL query string, generating a SHA384 hash of the string, and comparing the hash against the indexed column in the database to identify matches.
 
 5) **URL Canonicalization**<br>
    _Canonicalizing URLs involves transforming them into a standardized format to remove redundancy and ensure consistency and helps in identifying equivalent URLs and improving the accuracy of web content retrieval._<br>
    <br>
-   URL canonicalization entails inspecting the `Link` HTTP header line to identify any potential canonical URL of the fetched resource; if absent, PHP's [DOM extension](https://www.php.net/manual/en/book.dom.php) is employed to locate the `<link rel=canonical>` meta tag, and if it's missing, the URL remains unchanged.
+   URL canonicalization involves inspecting the `Link` HTTP header line to identify any potential canonical URL of the fetched resource; if absent, PHP's [DOM extension](https://www.php.net/manual/en/book.dom.php) is employed to locate the `<link rel=canonical>` meta tag, and if it's missing, the URL remains unchanged.
 
 6) **Orchestrating Requests**<br>
    _Coordinating HTTP requests to remote servers involves managing concurrency, handling timeouts, and optimizing resource utilization to ensure efficient retrieval of web content without overwhelming servers or causing performance bottlenecks. Additionally, retaining session cookies, and adhering to rate limits are essential for accessing protected or rate-limited web resources securely and efficiently._<br>
@@ -129,8 +129,8 @@ Please visit `http://localhost:3000` to access the panel.
 
 ## Final Thoughts
 
-This project represents a comprehensive approach to web development, combining web scraping, content extraction, API creation, and frontend user interface using a diverse set of technologies. Leveraging Laravel for backend processing and API creation, Python's FastAPI for fast endpoint development, and Nuxt.js as the frontend framework for users, the project achieves a seamless integration of diverse components.
+This project represents a combination of web scraping, content extraction, API creation, and frontend user interface using a diverse set of technologies. Leveraging Laravel for backend processing and API creation, Python's FastAPI for fast endpoint development, and Nuxt.js as the frontend framework for users, the project achieves a seamless integration of diverse components.
 
-Furthermore, third-party applications like MySQL, Redis, Nginx, and MinIO are seamlessly integrated into the system, operating as containers within an isolated network orchestrated by Docker Compose. This inclusive approach guarantees consistency, scalability, and streamlined deployment across diverse environments. Containerizing the individual programming languages—PHP, Python, and Node.js—alongside these third-party applications within the project's architecture ensures portability and scalability, emphasizing the importance of consistency, reproducibility, and ease of deployment across varied environments. This unified strategy underscores agility, scalability, and efficiency throughout the software development and deployment processes.
+Furthermore, third-party applications like MySQL, Redis, Nginx, and MinIO are integrated into the system, operating as containers within an isolated network orchestrated by Docker Compose. This inclusive approach guarantees consistency, scalability, and optimized deployment across multiple environments. Containerizing PHP, Python, Node.js, and third-party apps ensures portable, scalable deployment, emphasizing consistency, reproducibility, and ease across the software development and deployment processes.
 
 Overall, it exemplifies modern web development practices, showcasing adaptability and innovation in building sophisticated applications that meet the needs of both developers and end users.
