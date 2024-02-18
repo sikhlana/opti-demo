@@ -2,15 +2,19 @@
 
 namespace App\Scrapers;
 
+use App\Concerns\CrawlsExternalSources;
 use App\Exceptions\MismatchedCanonicalUrl;
 use App\Models\Content;
 use DOMDocument;
 use DOMElement;
 use DOMXPath;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class HtmlScraper extends Scraper
 {
+    use CrawlsExternalSources;
+
     public function scrape(Content $content): void
     {
         $dom = new DOMDocument();
@@ -29,6 +33,8 @@ class HtmlScraper extends Scraper
         $content->meta = $this->meta($xpath);
         $content->title = $this->title($xpath, $content->meta);
         $content->body = $this->body($content, $content->meta);
+
+        $this->images($content, $xpath);
     }
 
     protected function canonical(DOMXPath $xpath): ?string
@@ -119,5 +125,36 @@ class HtmlScraper extends Scraper
         }
 
         return null;
+    }
+
+    protected function images(Content $content, DOMXPath $xpath): void
+    {
+        /** @var DOMElement $el */
+        foreach ($xpath->query('//article//img[@src]') as $el) {
+            $src = $el->getAttribute('src');
+
+            if (! $src) {
+                continue;
+            }
+
+            $response = $this->httpClient()->get($src);
+
+            if ($response->failed()) {
+                continue;
+            }
+
+            $contentType = $this->contentType($response);
+
+            if (! Str::startsWith($contentType, 'image/')) {
+                continue;
+            }
+
+            $this->saveImage(
+                content: $content,
+                file: $response->toPsrResponse()->getBody(),
+                contentType: $contentType,
+                source: $src,
+            );
+        }
     }
 }

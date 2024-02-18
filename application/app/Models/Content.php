@@ -6,6 +6,7 @@ use App\Enums\ContentState;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use Psr\Http\Message\StreamInterface;
 use SplFileInfo;
@@ -39,6 +40,11 @@ class Content extends Model
         return $this->belongsTo(Content::class);
     }
 
+    public function images(): HasMany
+    {
+        return $this->hasMany(Image::class);
+    }
+
     public function getPathAttribute(): ?string
     {
         if (! $this->id) {
@@ -47,7 +53,7 @@ class Content extends Model
 
         return sprintf(
             '/contents/%s/%s.data',
-            substr($this->id, 0, 6),
+            substr($this->id, 0, 10),
             $this->id,
         );
     }

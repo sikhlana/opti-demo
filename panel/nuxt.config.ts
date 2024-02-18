@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   extends: ['@nuxt/ui-pro'],
   modules: [
+    '@nuxt/image',
     '@nuxt/ui',
     '@nuxtjs/eslint-module',
     '@vueuse/nuxt',

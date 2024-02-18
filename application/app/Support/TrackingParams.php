@@ -10,9 +10,9 @@ use Sikhlana\Singleton\Singleton;
  *
  * @see https://github.com/mpchadwick/tracking-query-params-registry
  */
-class TrackingParams implements Singleton
+readonly class TrackingParams implements Singleton
 {
-    public readonly array $keys;
+    public array $keys;
 
     public function __construct()
     {

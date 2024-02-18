@@ -14,7 +14,7 @@ class ContentController extends Controller
     #[Get('/{content}')]
     public function show(Content $content): Content
     {
-        $content->load('parent');
+        $content->load('parent', 'images', 'parent.images');
 
         return $content;
     }

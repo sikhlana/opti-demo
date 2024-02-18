@@ -9,6 +9,7 @@
         "ext-dom": "*",
         "beyondcode/laravel-dump-server": "^1.9",
         "guzzlehttp/guzzle": "^7.2",
+        "intervention/validation": "^4.0",
         "laravel/framework": "^10.10",
         "laravel/octane": "^2.3",
         "laravel/tinker": "^2.8",

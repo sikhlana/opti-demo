@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Concerns\CrawlsExternalSources;
 use App\Enums\ContentState;
 use App\Exceptions\MismatchedCanonicalUrl;
 use App\Models\Content;
@@ -9,26 +10,19 @@ use App\Scrapers\HtmlScraper;
 use App\Scrapers\PdfScraper;
 use App\Scrapers\Scraper;
 use App\Services\UrlService;
-use GuzzleHttp\Cookie\CookieJar;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 use Throwable;
 
 class Scrape implements ShouldBeUnique, ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use CrawlsExternalSources, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $uniqueFor = 3600;
 
@@ -56,7 +50,7 @@ class Scrape implements ShouldBeUnique, ShouldQueue
         $canonicalized = false;
 
         restart:
-        $response = $this->http()->get($url);
+        $response = $this->httpClient()->get($url);
 
         if ($response->failed()) {
             if ($response->tooManyRequests()) {
@@ -68,10 +62,7 @@ class Scrape implements ShouldBeUnique, ShouldQueue
             throw $response->toException();
         }
 
-        $contentType = Str::of($response->header('content-type'))
-            ->before(';')
-            ->trim()
-            ->value();
+        $contentType = $this->contentType($response);
 
         $this->content->content = $response->toPsrResponse()->getBody();
         $this->content->content_type = $contentType;
@@ -154,24 +145,5 @@ class Scrape implements ShouldBeUnique, ShouldQueue
                 'error' => $e->getMessage(),
             ]);
         });
-    }
-
-    protected function http(): PendingRequest
-    {
-        return Http::maxRedirects(3)
-            ->withMiddleware(static function (callable $handler): callable {
-                /** @var CookieJar $jar */
-                $jar = Cache::rememberForever('scrape:cookies', fn () => new CookieJar());
-
-                return static function (RequestInterface $request, array $options) use ($handler, $jar) {
-                    return $handler($jar->withCookieHeader($request), $options)->then(function (ResponseInterface $response) use ($jar, $request) {
-                        $jar->extractCookies($request, $response);
-                        Cache::forever('scrape:cookies', $jar);
-
-                        return $response;
-                    });
-                };
-            })
-            ->withUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:122.0) Gecko/20100101 Firefox/122.0');
     }
 }
