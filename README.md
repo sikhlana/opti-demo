@@ -31,7 +31,7 @@ A simple application stack that tries to solve the process of extracting content
   Relational database for the main application to store models.
 - **Redis**<br>
   In-memory database used as a cache and job queueing store for the main application.
-- **Minio**<br>
+- **MinIO**<br>
   OSS alternative of S3 for persistent storage of the scraped contents and images.
 
 
@@ -128,6 +128,6 @@ Please visit `http://localhost:3000` to access the panel.
 
 This project represents a comprehensive approach to web development, combining web scraping, content extraction, API creation, and frontend user interface using a diverse set of technologies. Leveraging Laravel for backend processing and API creation, Python's FastAPI for fast endpoint development, and Nuxt.js as the frontend framework for users, the project achieves a seamless integration of diverse components.
 
-Containerizing the individual programming languages — PHP, Python, and Node.js — within the project's architecture and using Docker Compose for deployment adds a layer of portability. This approach ensures consistency, reproducibility, and ease of deployment across different environments, emphasizing agility, scalability, and efficiency in software development and deployment processes.
+Furthermore, third-party applications like MySQL, Redis, Nginx, and MinIO are seamlessly integrated into the system, operating as containers within an isolated network orchestrated by Docker Compose. This inclusive approach guarantees consistency, scalability, and streamlined deployment across diverse environments. Containerizing the individual programming languages—PHP, Python, and Node.js—alongside these third-party applications within the project's architecture ensures portability and scalability, emphasizing the importance of consistency, reproducibility, and ease of deployment across varied environments. This unified strategy underscores agility, scalability, and efficiency throughout the software development and deployment processes.
 
 Overall, it exemplifies modern web development practices, showcasing adaptability and innovation in building sophisticated applications that meet the needs of both developers and end users.
