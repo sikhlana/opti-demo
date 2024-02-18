@@ -121,7 +121,7 @@ Please visit `http://localhost:3000` to access the panel.
 12) **Ingesting Resources Other Than HTML Pages**<br>
     _Ingesting various types of content like PDFs, videos, images, and HTML data tables expands the scope of web content ingestion systems, enabling them to process diverse multimedia and structured data._<br>
     <br>
-    At present, the system exclusively handles PDF documents for text extraction and relevant metadata retrieval, leveraging Python's [PyPDF2 package](https://pypi.org/project/PyPDF2/).
+    At present, the system exclusively handles PDF documents (along with HTML pages) for text extraction and relevant metadata retrieval, leveraging Python's [PyPDF2 package](https://pypi.org/project/PyPDF2/).
 
 
 ## Final Thoughts
