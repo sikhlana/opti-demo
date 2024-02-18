@@ -7,7 +7,7 @@ A simple application stack that tries to solve the process of extracting content
 
 - **PHP 8.3**<br>
   Built the main application to handle most of the tasks as this is the language I'm most comfortable with for fast and efficient development.
-- **P**ython 3.12**<br>
+- **Python 3.12**<br>
   Built an internal API to extract texts from unstructured HTML pages and PDF documents as it has the best packages compared to other language stacks.
 - **Bun 1.0**<br>
   Used as a package manager and development environment for the frontend panel for its fast execution.
