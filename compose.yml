@@ -19,7 +19,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    restart: no
+    restart: on-failure
     volumes:
       - ./application/.env.test:/app/.env:ro
     networks:
@@ -100,7 +100,7 @@ services:
       retries: 5
 
   redis:
-    image: redis/redis-stack:latest
+    image: redis:7.2-alpine
     restart: on-failure
     volumes:
       - redis-data:/data

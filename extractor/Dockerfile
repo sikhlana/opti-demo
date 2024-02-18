@@ -1,4 +1,4 @@
-FROM python:3-alpine AS final
+FROM python:3.12-alpine AS final
 
 RUN apk upgrade; \
     apk add tini gcc python3-dev libc-dev; \
