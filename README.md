@@ -8,20 +8,23 @@ A simple application stack that tries to solve the process of extracting content
 - **PHP 8.3**<br>
   Built the main application to handle most of the tasks as this is the language I'm most comfortable with for fast and efficient development.
 - **Python 3.12**<br>
-  Built an internal API to extract texts from unstructured HTML pages and PDF documents as it has the best packages compared to other language stacks.
+  Built an internal API application that extract texts from unstructured HTML pages and PDF documents as it has the best packages compared to other language stacks.
 - **Bun 1.0**<br>
-  Used as a package manager and development environment for the frontend panel for its fast execution.
+  Used as a package manager and the development environment for the frontend panel for its fast execution.
 - **NodeJS 20.11**<br>
-  Used to compile sources of the frontend panel during the deployment process instead of _Bun_ because of the stability.
+  Used to compile sources of the frontend panel during the deployment process instead of _Bun_ because of its stability.
 
 ### Frameworks / Packages Used
 
 - **Laravel**<br>
-  The most matured framework for PHP. Used as the main backend application to handle HTTP requests and scrape web resources.
+  Laravel has been my first choice to develop API and websites since 2014 for its elegant structure and best-in-class features.<br>
+  Used as the main backend application to handle HTTP requests and scrape web resources.
 - **FastAPI**<br>
-  Facilitates rapid development of web APIs. Used as an internal API server to extract text from content-heavy HTML pages and PDF documents.
+  With minimal knowledge in Python, I went with FastAPI for its simplicity and rapid API development.<br>
+  Used as an internal API server to extract text from content-heavy HTML pages and PDF documents.
 - **Nuxt**<br>
-  The best-in-class meta framework for Vue. Used as the main web page users are going to visit to use this application stack.
+  Vue has been my first choice for frontend development since 2016 for its HTML-like syntax and readability.<br>
+  Used as the main web page users are going to visit to use this application stack.
 
 ### Third-party Applications Used
 
