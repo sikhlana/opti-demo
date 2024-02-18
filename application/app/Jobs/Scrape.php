@@ -26,7 +26,9 @@ class Scrape implements ShouldBeUnique, ShouldQueue
 
     public int $uniqueFor = 3600;
 
-    public int $tries = 3;
+    public int $tries = 10;
+
+    public int $maxExceptions = 1;
 
     public function __construct(
         protected Content $content,
@@ -55,6 +57,12 @@ class Scrape implements ShouldBeUnique, ShouldQueue
         if ($response->failed()) {
             if ($response->tooManyRequests()) {
                 $this->release(now()->addSeconds(10));
+
+                return;
+            }
+
+            if ($response->serverError()) {
+                $this->release(now()->addMinute());
 
                 return;
             }

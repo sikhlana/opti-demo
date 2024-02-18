@@ -2,6 +2,7 @@
 
 A simple application stack that tries to solve the process of extracting content from the web, in the form of HTML pages and PDF documents.
 
+
 ## Tools / Technologies Used
 
 - **PHP 8.3**<br>
@@ -33,6 +34,7 @@ A simple application stack that tries to solve the process of extracting content
 - **Minio**<br>
   OSS alternative of S3 for persistent storage of the scraped contents and images.
 
+
 ## Running the Project
 
 ### Pre-requisites
@@ -58,12 +60,13 @@ make build run
 
 Please visit `http://localhost:3000` to access the panel.
 
+
 ## The Problems (and Their Solutions)
 
 1) **Extracting Title and Body**<br>
    _Extracting the title and body of a web resource is fundamental for understanding and processing the content as the title provides a concise summary of the articles's topic, while the body contains the main textual information._<br>
    <br>
-   Extracting structured data from HTML documents involves parsing and manipulating the Document Object Model (DOM). The content title is extracted from HTML meta tags by using PHP's [DOM extension](https://www.php.net/manual/en/book.dom.php), and the body is obtained from relevant JSON-LD metadata; if unavailable, Python's [Goose3 package](https://pypi.org/project/goose3/) package is utilized to extract text from raw HTML.
+   Extracting structured data from HTML documents involves parsing and manipulating the Document Object Model (DOM). The content title is extracted from HTML meta tags by using PHP's [DOM extension](https://www.php.net/manual/en/book.dom.php), and the body is obtained from relevant JSON-LD metadata; if unavailable, Python's [Goose3 package](https://pypi.org/project/goose3/)  is utilized to extract text from raw HTML.
 
 2) **Extracting Metadata**<br>
    _Metadata provides additional context about the web resource, including information like authorship, publication date, keywords, etc and is crucial for categorizing and indexing web content accurately._<br>
@@ -119,3 +122,12 @@ Please visit `http://localhost:3000` to access the panel.
     _Ingesting various types of content like PDFs, videos, images, and HTML data tables expands the scope of web content ingestion systems, enabling them to process diverse multimedia and structured data._<br>
     <br>
     At present, the system exclusively handles PDF documents for text extraction and relevant metadata retrieval, leveraging Python's [PyPDF2 package](https://pypi.org/project/PyPDF2/).
+
+
+## Final Thoughts
+
+This project represents a comprehensive approach to web development, combining web scraping, content extraction, API creation, and frontend user interface using a diverse set of technologies. Leveraging Laravel for backend processing and API creation, Python's FastAPI for efficient endpoint development, and Nuxt.js as the frontend framework for users, the project achieves a seamless integration of diverse components.
+
+Containerizing the individual programming languages — PHP, Python, and Node.js — within the project's architecture and using Docker Compose for deployment adds a layer of sophistication and portability. This approach ensures consistency, reproducibility, and ease of deployment across different environments, emphasizing agility, scalability, and efficiency in software development and deployment processes.
+
+Overall, it exemplifies modern web development practices, showcasing adaptability and innovation in building sophisticated applications that meet the needs of both developers and end users.
