@@ -126,8 +126,8 @@ Please visit `http://localhost:3000` to access the panel.
 
 ## Final Thoughts
 
-This project represents a comprehensive approach to web development, combining web scraping, content extraction, API creation, and frontend user interface using a diverse set of technologies. Leveraging Laravel for backend processing and API creation, Python's FastAPI for efficient endpoint development, and Nuxt.js as the frontend framework for users, the project achieves a seamless integration of diverse components.
+This project represents a comprehensive approach to web development, combining web scraping, content extraction, API creation, and frontend user interface using a diverse set of technologies. Leveraging Laravel for backend processing and API creation, Python's FastAPI for fast endpoint development, and Nuxt.js as the frontend framework for users, the project achieves a seamless integration of diverse components.
 
-Containerizing the individual programming languages — PHP, Python, and Node.js — within the project's architecture and using Docker Compose for deployment adds a layer of sophistication and portability. This approach ensures consistency, reproducibility, and ease of deployment across different environments, emphasizing agility, scalability, and efficiency in software development and deployment processes.
+Containerizing the individual programming languages — PHP, Python, and Node.js — within the project's architecture and using Docker Compose for deployment adds a layer of portability. This approach ensures consistency, reproducibility, and ease of deployment across different environments, emphasizing agility, scalability, and efficiency in software development and deployment processes.
 
 Overall, it exemplifies modern web development practices, showcasing adaptability and innovation in building sophisticated applications that meet the needs of both developers and end users.
