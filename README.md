@@ -45,6 +45,8 @@ A simple application stack that tries to solve the process of extracting content
 - **Docker** with _compose_ plugin enabled<br>
   The project has been containerized to ease the deployment process since the project uses multiple environment and application stacks.
 
+- Ports `3000` and `8000` open.
+
 ### Instructions
 
 A `Makefile` is provided in the root directory. Just:
@@ -54,7 +56,7 @@ A `Makefile` is provided in the root directory. Just:
 git clone https://github.com/sikhlana/opti-demo.git
 # 2) Enter the directory...
 cd opti-demo
-# 3) Build the images and run the stack.
+# 3) Build the images and run the stack...
 make build run
 # 4) And voila!
 ```
